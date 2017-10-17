@@ -8,24 +8,25 @@ use App\Services\SiteService;
 
 class IndexController extends Controller
 {
+    public function __construct()
+    {
+        $this->pages = Page::getAll();
+        $this->services = Service::getAll();
+        $this->portfolios = Portfolio::getAll();
+        $this->peoples = People::getChuck(3);
+        $this->tags = Portfolio::getPortfolioFilters();
+        $this->menu = SiteService::generateMenu($this->pages);
+    }
 
     public function execute()
     {
-        $pages = Page::all();
-        $services = Service::all();
-        $portfolios = Portfolio::all();
-        $peoples = People::take(3)->get();
-
-        $menu = SiteService::generateMenu($pages);
-        $tags = Portfolio::getPortfolioFilters();
-
         return view('site.index', [
-            'menu' => $menu,
-            'pages' => $pages,
-            'services' => $services,
-            'portfolios' => $portfolios,
-            'peoples' => $peoples,
-            'tags' => $tags,
+            'menu' => $this->menu,
+            'pages' => $this->pages,
+            'services' => $this->services,
+            'portfolios' => $this->portfolios,
+            'peoples' => $this->peoples,
+            'tags' => $this->tags,
         ]);
     }
 

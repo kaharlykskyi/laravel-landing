@@ -12,4 +12,9 @@ class Portfolio extends Model
     {
         return DB::table('portfolios')->distinct()->pluck('filter')->toArray();
     }
+
+    public static function getAll(): Collection
+    {
+        return Portfolio::all();
+    }
 }
